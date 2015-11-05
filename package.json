@@ -1,0 +1,19 @@
+{
+  "name": "vjj-player",
+  "version": "1.0.0",
+  "description": "videojj player for PC, mobile",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Venvy-dev/vjj-player.git"
+  },
+  "author": "nekron.hyt@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Venvy-dev/vjj-player/issues"
+  },
+  "homepage": "https://github.com/Venvy-dev/vjj-player#readme"
+}

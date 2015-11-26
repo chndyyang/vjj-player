@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>player</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- This is a special version of jQuery with RequireJS built-in -->
+    <link href="css/player.css" rel="stylesheet" type="text/css" />
+    <!--<script src="scripts/sonic.js"></script>
+        <script src="main-built.js"></script>-->
+</head>
+
+<body style='margin:0 0 0 0;'>
+    <div id='container' style='height:480px;width:854px;float:left;background:black;position:absolute;left:200px'></div>
+    <!-- <div id='container2' style='height:450px;width:800px;float:left'></div> -->
+    <!-- <div id='container3' style='height:450px;width:800px;position:relative;float:left'></div> -->
+    <!-- <div id='container4' style='height:450px;width:800px;position:relative;float:left'></div> -->
+    <!-- <div id='container5' style='height:450px;width:800px;position:relative;float:left'></div> -->
+    <!--<script data-main="scripts/main" src="scripts/require.js"></script>-->
+    <!-- <a>123123123</a> -->
+    <script src="dist/jquery.min.js"></script>
+    <script src="dist/player.js"></script>
+    <script>
+
+    var params = {
+            play_callback: function() {
+                console.log('play_callback');
+            },
+            pause_callback: function() {
+                console.log('pause_callback');
+            },
+            stop_callback: function() {
+                console.log('stop_callback');
+            },
+            start_seek_callback: function() {
+                console.log('start_seek_callback');
+            },
+            show_bar_callback: function() {
+                console.log('show_bar_callback');
+            },
+            hide_bar_callback: function() {
+                console.log('hide_bar_callback');
+            },
+            videoId: '123123123',
+            title: 'asaaaa',
+            jump_step: 10,
+            right_hand: true,
+            auto_format: false,
+            editor_mode: false,
+            need_analyze: false,
+            // white_dot: {
+            //     '300':'我操啊啊啊啊',
+            //     '734':'你妹啊啊',
+            //     '1000000':'这个点事非法的',
+            //     '1233':'有什么东西啊',
+            //     '1032':'不知道啊。。'
+            // },
+            // white_dot: {
+            //     'firstblood': 5,
+            //     'doublekill': 50
+            // },
+            logo: 'http://7xkfcp.com2.z0.glb.qiniucdn.com/logo.png',
+            small_logo: 'http://img.sc115.com/uploads/png/110125/2011012514020588.png',
+            small_logo_url: 'http://baidu.com',
+            site: '',
+            Appkey: '4kfaK4g5',
+            load_and_pause: false,
+            loaded_callback: function() {
+                // alert('loaded');
+                player5.hide_loading()
+            },
+            fullscreen_callback: function() {
+                console.log('fullscreen');
+            },
+            exitfullscreen_callback: function() {
+                console.log('exitfullscreen')
+            },
+            parse_error_callback: function() {
+                console.log('parse_error_callback!!');
+            },
+            Appkey: '4kfaK4g5',
+            skin_select: 1,
+            // force_flash: false,
+            // video_poster:'http://www.jj59.com/uploadfile/200810/6/1858499017.jpg',
+            loading_text: 'hello world'
+        }
+        // var player1 = new VenvyPLayer('container','/mp4/laferrari.mp4' ,0,params);
+    // $970effdcdb$a242fc0879$cloudletv
+    // rtmp://live.hkstv.hk.lxdns.com/live/hks
+    // $http://42.48.30.77/player/mango-tv3-main/MangoTV_3.swf?video_id=1759418&skin_swf_url=http://42.48.30.77/player/mango-tv3-skin/MangoTV_Skin_3.swf&player_swf_url=http://42.48.30.77/player/mango-tv3-player/MangoTV_Player_3.swf&statistics_bigdata_bid=1&js_function_name=vjjFlash$hunantv
+    // $http://hls4.l.cztv.com/channels/lantian/channel01/360p.m3u8$channel01$cztvlive
+
+    var url = '$http://hls4.l.cztv.com/channels/lantian/channel02/m3u8:360p$channel02$cztvlive'
+    var player5 = new Player('container')
+    player5.init(url, 0, params)
+        player5.show_loading()
+
+    // player5.init(url,0 ,params)
+    // var player5 = new VenvyPLayer('container','http://v.youku.com/v_show/id_XMTMwOTM5MTk2MA==.html',367+400 ,params)
+    </script>
+</body>
+
+</html>

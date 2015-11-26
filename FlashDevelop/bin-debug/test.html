@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>player</title>
+        <!-- This is a special version of jQuery with RequireJS built-in -->
+        <link href="css/player.css" rel="stylesheet" type="text/css"/>
+        <!--<script src="scripts/sonic.js"></script>
+        <script src="main-built.js"></script>-->
+    </head>
+    <body style='margin:0 0 0 0;'>
+
+        <input id="video_url_input" type="text" style="float:left;left:200px"/><button id="video_url_button">播放</button>
+        <input id="video_need_analyze" type="checkbox" checked="true"/><label for="video_need_analyze">是否解析</label>
+        <div id='container' style='height:480px;width:854px;float:left;background:black;position:absolute;left:200px'></div>
+        <!-- <div id='container2' style='height:450px;width:800px;float:left'></div> -->
+        <!-- <div id='container3' style='height:450px;width:800px;position:relative;float:left'></div> -->
+        <!-- <div id='container4' style='height:450px;width:800px;position:relative;float:left'></div> -->
+        <!-- <div id='container5' style='height:450px;width:800px;position:relative;float:left'></div> -->
+        <!--<script data-main="scripts/main" src="scripts/require.js"></script>-->
+        <!-- <a>123123123</a> -->
+        <script src="dist/jquery.min.js"></script>
+        <script src="dist/player.js"></script>
+        <script>
+            var params = {
+                play_callback: function(){
+                    console.log('play_callback');
+                },
+                pause_callback: function(){
+                    console.log('pause_callback');
+                },
+                stop_callback: function(){
+                    console.log('stop_callback');
+                },
+                start_seek_callback: function(){
+                    console.log('start_seek_callback');
+                },
+                video_poster: '',
+                videoId: '123123123',
+                title: 'asaaaa',
+                jump_step: 10,
+                right_hand: true,
+                auto_format: false,
+                editor_mode: false,
+                white_dot: {
+                    '300':'我操啊啊啊啊',
+                    '734':'你妹啊啊',
+                    '1000000':'这个点事非法的',
+                    '1233':'有什么东西啊',
+                    '1032':'不知道啊。。'
+                },
+                // white_dot: {
+                //     'firstblood': 5,
+                //     'doublekill': 50
+                // },
+                logo: 'http://img1.imgtn.bdimg.com/it/u=3514232518,4079261815&fm=21&gp=0.jpg',
+                small_logo: 'http://img.sc115.com/uploads/png/110125/2011012514020588.png',
+                site: '',
+                Appkey: '4kfaK4g5',
+                load_and_pause: false,
+                loaded_callback: function(){
+                    // alert('loaded');
+                    player.hide_loading()
+                },
+                fullscreen_callback: function(){
+                    console.log('fullscreen');
+                },
+                exitfullscreen_callback: function(){
+                    console.log('exitfullscreen')
+                },
+                parse_error_callback: function(){
+                    console.log('parse_error_callback!!');
+                },
+                Appkey: '4kfaK4g5',
+                video_end_prefix_seconds: 30,
+                skin_select:1,
+                // force_flash: true,
+                // need_analyze: false
+               need_analyze: true
+            }
+            var VenvyPLayer = Player
+            var player = undefined
+            $('#video_url_button').click(function() {
+              var url = $('#video_url_input').val()
+              var need_analyze = $('#video_need_analyze')[0].checked
+              if (url == '') return
+              if (url.indexOf('plu') != -1) params.site = 'plu'
+              else params.site = ''
+              params.need_analyze = need_analyze
+              console.log(url, params)
+              if (player != undefined) player.destroy()
+              player = new VenvyPLayer('container', params)
+
+              player.show_loading();
+
+              player.init(url, 0, params);
+            })
+        </script>
+    </body>
+
+</html>

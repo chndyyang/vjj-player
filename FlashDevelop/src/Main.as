@@ -1,11 +1,12 @@
 package
 {
 	
+	import com.adobe.crypto.MD5;
+	import com.vjj.Base64;
 	import com.vjj.VjjApp;
 	import com.vjj.events.VideoJSEvent;
-	import com.vjj.structs.ExternalEventName;
 	import com.vjj.structs.ExternalErrorEventName;
-	import com.vjj.Base64;
+	import com.vjj.structs.ExternalEventName;
 	
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -16,19 +17,18 @@ package
 	import flash.external.ExternalInterface;
 	import flash.geom.Rectangle;
 	import flash.system.Security;
-	import flash.ui.ContextMenu;
-	import flash.ui.ContextMenuItem;
 	import flash.utils.ByteArray;
 	import flash.utils.Timer;
 	import flash.utils.setTimeout;
-	
-	import org.mangui.hls.utils.Log;
 	
 	[SWF(backgroundColor = "#000000", frameRate = "60", width = "480", height = "270")]
 	public class Main extends Sprite
 	{
 		private var _app:VjjApp;
 		private var _stageSizeTimer:Timer;
+		
+		private var _callbackFunName:String;
+		private var _onLoadedFunName:String;
 		
 		public function Main()
 		{
@@ -54,7 +54,7 @@ package
 		}
 		
 		private function registerExternalMethods():void
-		{
+		{		
 			try
 			{
 				ExternalInterface.addCallback("get", onGetPropertyCalled);
@@ -83,6 +83,28 @@ package
 			{
 			}
 			setTimeout(finish, 50);
+		}
+
+		/**
+		 * 获取防盗链url hls4.l.cztv.com,channel01,360p
+		 * @param cdn cdn域名 如hls4.l.cztv.com
+		 * @param channelID 频道id 如channel01
+		 * @param quality 视频清晰度 如360p
+		 * http://hls4.l.cztv.com/channels/lantian/channel01/m3u8:360p?k=5a9462eb329c14baf6762fb07758a77e&t=1448506624
+		 */
+		private function get_Anti_theft_Link(cdn:String, channelID:String, quality:String=""):String
+		{
+			var url:String = cdn;
+			var now:Date = new Date();
+			var timeStamp:String = now.time.toString();
+			url += "?k=" + MD5.hash("cztv/lantian/" + channelID + timeStamp) + "&t=" + timeStamp;
+			return url;
+		}
+		
+		private function getAntiTheftLinkByArray(arr:Array):String
+		{
+			if(arr == null) 	return "";
+			return get_Anti_theft_Link(arr[0], arr[1]);
 		}
 		
 		private function finish():void
@@ -216,13 +238,18 @@ package
 		
 		private function onSetPropertyCalled(pPropertyName:String = "", pValue:* = null):void
 		{
+			ExternalInterface.call("console.log", pValue);
 			switch (pPropertyName)
 			{
 			case "mode": 
 				_app.model.mode = pValue;
 				break;
-			case "src": 
-				_app.model.src = pValue;
+			case "src":
+				ExternalInterface.call("console.log", pValue);
+				var url_arr:Array = String(pValue).split(",");
+				var str:String = getAntiTheftLinkByArray(url_arr)
+				ExternalInterface.call("console.log", str);
+				_app.model.src = str;
 				break;
 			case "currentTime": 
 				_app.model.seekBySeconds(Number(pValue));

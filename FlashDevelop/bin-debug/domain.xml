@@ -1,0 +1,21 @@
+<root>
+	<domains type="1" name="dilian">
+		<domain id="r1.l.cztv.com" />
+		<domain id="v.l.cztv.com" />
+		<domain id="r2.l.cztv.com" />
+		<domain id="cztv.dnion.com" />
+		<domain id="hls1.l.cztv.com" />
+		<domain id="hls3.l.cztv.com" />
+		<domain id="hls300.l.cztv.com" />
+		<domain id="hls337.l.cztv.com" />
+		<domain id="hls319.l.cztv.com" />
+		<domain id="hls346.l.cztv.com" />
+		<domain id="hls328.l.cztv.com" />
+		<domain id="hls3.l.dnion.com" />
+		<domain id="hls3wap.l.cztv.com" />
+		<domain id="hls3pc.l.cztv.com" />
+		<domain id="hls1wap.l.cztv.com" />
+		<domain id="hls1pc.l.cztv.com" />
+		<domain id="hlscztv.dnion.com" />
+	</domains>
+</root>

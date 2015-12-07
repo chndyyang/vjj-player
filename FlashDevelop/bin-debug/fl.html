@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #flash {
+            width: 800px;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <object id="flash" data="Main.swf" type="application/x-shockwave-flash">
+        <param name="quality" value="high" />
+        <param name="bgcolor" value="#000000" />
+        <param name="allowScriptAccess" value="always" />
+        <param name="allowFullScreen" value="true" />
+        <param name="allowInsecureDomain" value="*" />
+        <param name="allowDomain" value="*" />
+    </object>
+    <input id="text" type="text">
+    <button id="btn">play</button>
+    <script>
+    var fl = document.getElementById('flash');
+    var btn = document.getElementById('btn');
+    var text = document.getElementById('text');
+	function thisMovie(movieName) {
+         if (navigator.appName.indexOf("Microsoft") != -1) {
+             return window[movieName];
+         } else {
+             return document.getElementById(movieName);
+         }
+     }
+	 
+	 function cdnmp4(str){
+		thisMovie("flash").set("mode", "HDL");
+		thisMovie("flash").set("src", str);
+	 }
+
+	 function cdnm3(str){
+		thisMovie("flash").set("mode", "HLS");
+		thisMovie("flash").set("src", str);
+	 }
+    btn.onclick = function(){
+        //console.debug(text.value);
+        fl.set("mode", "HLS");
+		fl.set("src", "http://183.134.12.58/pchlsws1.imgo.tv/3ad6e34635a627fb02c5f05b700be279/565fed9e/c1/2015/zongyi/babaqunaerdisanji/37CB0232BAD325B761A5613DB0446F3F_20151021_1_1_721.fhv/playlist.m3u8?wsiphost=local");
+    };
+    </script>
+</body>
+</html>

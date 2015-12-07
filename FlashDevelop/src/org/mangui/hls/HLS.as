@@ -3,19 +3,20 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package org.mangui.hls {
     import flash.display.Stage;
+    import flash.events.Event;
+    import flash.events.EventDispatcher;
     import flash.net.NetConnection;
     import flash.net.NetStream;
     import flash.net.URLStream;
-    import flash.events.EventDispatcher;
-    import flash.events.Event;
-
-    import org.mangui.hls.controller.LevelController;
+    
+    import org.mangui.hls.constant.HLSSeekMode;
     import org.mangui.hls.controller.AudioTrackController;
+    import org.mangui.hls.controller.LevelController;
     import org.mangui.hls.event.HLSEvent;
-    import org.mangui.hls.loader.LevelLoader;
     import org.mangui.hls.loader.AltAudioLevelLoader;
-    import org.mangui.hls.model.Level;
+    import org.mangui.hls.loader.LevelLoader;
     import org.mangui.hls.model.AudioTrack;
+    import org.mangui.hls.model.Level;
     import org.mangui.hls.playlist.AltAudioTrack;
     import org.mangui.hls.stream.HLSNetStream;
     import org.mangui.hls.stream.StreamBuffer;
@@ -43,6 +44,7 @@ package org.mangui.hls {
 
         /** Create and connect all components. **/
         public function HLS() {
+			HLSSettings.seekMode = HLSSeekMode.ACCURATE_SEEK;
             var connection : NetConnection = new NetConnection();
             connection.connect(null);
             _levelLoader = new LevelLoader(this);

@@ -2,33 +2,34 @@ package
 {
 	
 	import com.adobe.crypto.MD5;
+	//import com.videojj.LiveContainer;
 	import com.videojj.MeiTuanAccredit;
-	import com.videojj.WebUtils;
 	import com.vjj.Base64;
 	import com.vjj.VjjApp;
 	import com.vjj.events.VideoJSEvent;
 	import com.vjj.structs.ExternalErrorEventName;
 	import com.vjj.structs.ExternalEventName;
+	import com.vjj.structs.PlayerMode;
 	
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
-	import flash.events.IOErrorEvent;
 	import flash.events.MouseEvent;
-	import flash.events.SecurityErrorEvent;
 	import flash.events.TimerEvent;
 	import flash.external.ExternalInterface;
 	import flash.geom.Rectangle;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.system.Security;
+	import flash.ui.ContextMenu;
+	import flash.ui.ContextMenuItem;
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 	import flash.utils.Timer;
 	import flash.utils.setTimeout;
 	
-	[SWF(backgroundColor = "#000000", frameRate = "60", width = "480", height = "270")]
+	[SWF(backgroundColor = "#3D9C9C", frameRate = "60", width = "800", height = "600")]
 	public class Main extends Sprite
 	{
 		private var _app:VjjApp;
@@ -37,7 +38,7 @@ package
 		private var _accreditSuc:Function;
 
 		private var onAccSucFunName:String;
-		
+		private var _appkey:String;
 		private var _domainDic:Dictionary;
 
 		public function Main()
@@ -54,8 +55,16 @@ package
 			Security.allowDomain("*");
 			Security.allowInsecureDomain("*");
 			
-			onAccSucFunName = stage.loaderInfo.parameters["callback"];
+			var menu:ContextMenu = new ContextMenu();
+			menu.hideBuiltInItems();
+			var version:ContextMenuItem = new ContextMenuItem("version 12211730");
+			version.separatorBefore = true;
+			menu.customItems.push(version);
 			
+			this.contextMenu = menu;
+		
+			//Security.loadPolicyFile("xmlsocket://test.videojj.com:843");
+
 			if (ExternalInterface.available)
 			{
 				registerExternalMethods();
@@ -65,8 +74,37 @@ package
 			addChild(_app);
 			
 			_app.model.stageRect = new Rectangle(0, 0, stage.stageWidth, stage.stageHeight);
+
+			_app.model.autoplay = true;
+/*
+			onSetPropertyCalled("mode", PlayerMode.HLS);
+			var obj:Object = new Object;
+			obj.connectionURL = "rtmp://xl-live-rtmp.videojj.com/yunshilian";
+			obj.streamURL = "2";
+			onSetPropertyCalled("presrc", "http://xuebanvod.ufile.ucloud.com.cn/52bbd7a85f94ed0806f19cb2/124/sd2/m3u8/vod.m3u8", 2);
+			http://xuebanvod.ufile.ucloud.com.cn/52bbd7a85f94ed0806f19cb2/124/sd2/m3u8/out00000.ts?k=eafe34c9f42a6105&t=1450419531
+			Security.loadPolicyFile(CDN.getAntiTheftLinkURL("http://xuebanvod.ufile.ucloud.com.cn/crossdomain.xml", 2));
+			onSetPropertyCalled("presrc", "http://xuebanvod.ufile.ucloud.com.cn/52bbd7a85f94ed0806f19cb2/124/sd2/m3u8/vod.m3u8", 2);
+*/
+			/*var con:LiveContainer = new LiveContainer(800, 600, stage,
+				"NGtzbVRCYk1s", 
+				"http://newstat.test.videojj.com",
+				"http://www.zhanqi.tv/2bzhubo", true);
+			addChild(con);
+
+			var l:URLLoader = new URLLoader();
+			l.addEventListener(Event.COMPLETE, onCom);
+			l.load(new URLRequest("1.txt"));
+			
+			function onCom(event:Event):void
+			{
+				var str:String = event.target.data;
+				
+				con.addTag(str);
+				
+			}*/
 		}
-		
+
 		/**
 		 * 获取防盗链url hls4.l.cztv.com,channel01,360p
 		 * @param cdn cdn域名 如hls4.l.cztv.com
@@ -104,7 +142,10 @@ package
 
 			return url;
 		}
-		
+
+		/**
+		 * 帝联 美团云使用的防盗链方法
+		 */
 		private function getAntiTheftLinkByArray(arr:Array):void
 		{
 			if(arr == null) 	return;
@@ -204,6 +245,12 @@ package
 			_app.model.autoplay = true;
 			_app.model.preload = 'auto';
 			
+			if (ExternalInterface.available) 
+			{
+				//ExternalInterface.addCallback("addTag", con.addTag);
+				ExternalInterface.call('vjjFlash.onReady', ExternalInterface.objectID);
+			}
+/*
 			var l:URLLoader = new URLLoader();
 			l.addEventListener(Event.COMPLETE, onCom);
 			l.addEventListener(IOErrorEvent.IO_ERROR, onError);
@@ -218,21 +265,13 @@ package
 				{
 					_domainDic[String(item.@id)] = 1;
 				}
-
-				if (ExternalInterface.available) 
-				{
-					ExternalInterface.call('vjjFlash.onReady', ExternalInterface.objectID);
-					ExternalInterface.call("console.log", "meituan xinlan cdn test");
-					
-					var url:String = "http://hls1.l.cztv.com:554/rcztvlive/live/index.m3u8";
-					getAntiTheftLinkByArray([url]);
-				}
 			}
 			
 			function onError(event:Event):void
 			{
 				trace(event.toString());
 			}
+*/
 		}
 		
 		private function onAddedToStage(e:Event):void
@@ -352,8 +391,10 @@ package
 			return null;
 		}
 
-		private function onSetPropertyCalled(pPropertyName:String = "", pValue:* = null):void
+		private function onSetPropertyCalled(pPropertyName:String = "", ...args):void
 		{
+			var pValue:* = args[0];
+
 			switch (pPropertyName)
 			{
 			case "mode": 
@@ -362,9 +403,37 @@ package
 			case "src":
 				_app.model.src = pValue;
 				break;
+			case "url":
+				var obj:Object = new Object;
+				obj.connectionURL = args[0];
+				obj.streamURL = args[1];
+				_app.model.src = obj;
+				break;
 			case "presrc":
 				var url_arr:Array = String(pValue).split(",");
-				getAntiTheftLinkByArray(url_arr);
+				var cdnType:uint = 1;
+				if (args[1])
+				{
+					cdnType = args[1];
+				}
+				switch(cdnType)
+				{
+					case CDN.UCLOUD:
+					{
+						//if(ExternalInterface.available)	ExternalInterface.call("cdnurl", CDN.getAntiTheftLinkURL(pValue, cdnType));
+						onSetPropertyCalled("src", CDN.getAntiTheftLinkURL(pValue, cdnType));
+						//trace(CDN.getAntiTheftLinkURL("http://" + CDN.domain + "/crossdomain.xml", cdnType));
+						//Security.loadPolicyFile(CDN.getAntiTheftLinkURL("http://" + CDN.domain + "/crossdomain.xml", cdnType));
+						//Security.loadPolicyFile("http://static.cdn.videojj.com/crossdomain.xml");
+						break;
+					}
+					default:
+					{
+						getAntiTheftLinkByArray(url_arr);
+						break;
+					}
+				}
+
 				break;
 			case "currentTime": 
 				_app.model.seekBySeconds(Number(pValue));

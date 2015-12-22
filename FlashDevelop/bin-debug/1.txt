@@ -1,0 +1,29 @@
+﻿{
+    "status": 0,
+    "msg": [newTag:{
+        "_id": "56693d1978b8a6530171231d",
+        "title": "商品",
+        "cat": 2,
+        "dg": {
+            "_id": "56090b24c1633378612b141d",
+            "cat": 2
+        },
+        "dot": [],
+        "dot_user": {
+            "x": 0.35520833333333335,
+            "y": 0.4722222222222222,
+            "time": 348604,
+            "duration": 5000,
+            "width": null,
+            "height": null,
+            "showTitle": 0
+        },
+        "color": 0.8,
+        "auditStatus": 1,
+        "type": 0,
+        "auto_hidden": 0,
+        "__v": 0
+    }
+    ]
+}
+

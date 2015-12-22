@@ -2,16 +2,21 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package org.mangui.hls.playlist {
-    import flash.events.*;
-    import flash.net.*;
+    import flash.events.Event;
+    import flash.events.IOErrorEvent;
+    import flash.events.ProgressEvent;
+    import flash.events.SecurityErrorEvent;
+    import flash.net.URLLoader;
+    import flash.net.URLRequest;
     import flash.utils.ByteArray;
     import flash.utils.getTimer;
+    
+    import org.mangui.hls.HLS;
     import org.mangui.hls.constant.HLSLoaderTypes;
     import org.mangui.hls.constant.HLSTypes;
     import org.mangui.hls.event.HLSError;
     import org.mangui.hls.event.HLSEvent;
     import org.mangui.hls.event.HLSLoadMetrics;
-    import org.mangui.hls.HLS;
     import org.mangui.hls.model.Fragment;
     import org.mangui.hls.model.Level;
     import org.mangui.hls.utils.DateUtil;
@@ -283,7 +288,9 @@ package org.mangui.hls.playlist {
                     } else {
                         fragment_decrypt_iv = null;
                     }
-                    fragments.push(new Fragment(url, duration, level, seqnum++, start_time, continuity_index, program_date, decrypt_url, fragment_decrypt_iv, byterange_start_offset, byterange_end_offset, tag_list));
+					url = CDN.isNeedCDN ? CDN.getAntiTheftLinkURL(url, CDN.playType) : url;
+                    fragments.push(new Fragment(url, duration, level, seqnum++, start_time, continuity_index, program_date, decrypt_url, fragment_decrypt_iv, 
+						byterange_start_offset, byterange_end_offset, tag_list));
                     start_time += duration;
                     if (program_date_defined) {
                         program_date += 1000 * duration;

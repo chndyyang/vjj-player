@@ -9,12 +9,13 @@ package org.mangui.hls.loader {
     import flash.utils.clearTimeout;
     import flash.utils.getTimer;
     import flash.utils.setTimeout;
+    
+    import org.mangui.hls.HLS;
+    import org.mangui.hls.HLSSettings;
     import org.mangui.hls.constant.HLSPlayStates;
     import org.mangui.hls.event.HLSError;
     import org.mangui.hls.event.HLSEvent;
     import org.mangui.hls.event.HLSLoadMetrics;
-    import org.mangui.hls.HLS;
-    import org.mangui.hls.HLSSettings;
     import org.mangui.hls.model.AudioTrack;
     import org.mangui.hls.model.Fragment;
     import org.mangui.hls.model.Level;
@@ -120,6 +121,7 @@ package org.mangui.hls.loader {
             _reload_playlists_timer = getTimer();
             var altAudioTrack : AltAudioTrack = _hls.altAudioTracks[_hls.audioTracks[_current_track].id];
             _manifest_loading = new Manifest();
+			trace("_parseAudioPlaylist", _parseAudioPlaylist);
             _manifest_loading.loadPlaylist(altAudioTrack.url, _parseAudioPlaylist, _errorHandler, _current_track, _hls.type, HLSSettings.flushLiveURLCache);
             _hls.dispatchEvent(new HLSEvent(HLSEvent.AUDIO_LEVEL_LOADING, _current_track));
         };
